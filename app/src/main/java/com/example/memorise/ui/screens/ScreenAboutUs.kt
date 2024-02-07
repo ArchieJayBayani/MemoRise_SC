@@ -25,38 +25,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.memorise.ui.Screens
+import com.example.memorise.feature_note.presentation.ScreenNavigations.AppDrawer
+import com.example.memorise.feature_note.presentation.ScreenNavigations.NavigationItem
+import com.example.memorise.feature_note.presentation.ScreenNavigations.Screens
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun aboutUsScreen(
-    navController: NavController
+    navController: NavController,
+    items: List<NavigationItem>
 ) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
-        Scaffold(
-            modifier = Modifier,
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(text = "About Us")
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            navController.navigate(Screens.MainScreen.route)
-                        }) {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Back"
-                            )
-                        }
-                    },
-                )
-            }
-        ){
+        AppDrawer(
+            items = items,
+            onItemClick = { item ->
+                item.route(navController)
+            },
+            navController = navController,
+            selectedItemIndex = 2,
+            title = "About Us",
+        ) {
             aboutUs()
         }
     }

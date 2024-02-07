@@ -1,6 +1,9 @@
+import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -30,17 +33,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     packaging {
         resources {
@@ -50,7 +53,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
@@ -68,4 +70,37 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation ("androidx.navigation:navigation-compose:2.5.0-alpha12")
+
+    //room
+    implementation ("androidx.room:room-ktx:2.5.0")
+    kapt ("androidx.room:room-compiler:2.5.0")
+
+    //hilt dagger
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.0.0")
+
+    implementation("androidx.compose.material:material:1.5.4")
+
+    //coil for image note
+    implementation ("io.coil-kt:coil:2.5.0")
+    implementation ("io.coil-kt:coil-compose:2.5.0")
+
+    implementation ("androidx.compose.runtime:runtime-livedata:1.1.0-alpha01")
+
+    //accompanist which is used for decoding an image
+    implementation ("com.google.accompanist:accompanist-coil:0.15.0")
+
+    //implementing this to fix the state for the search bar
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+    //implementing this to allow text formatting to and from type converter
+    implementation ("com.google.code.gson:gson:2.8.9")
+
+
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
 }

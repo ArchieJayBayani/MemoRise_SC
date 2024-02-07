@@ -17,18 +17,26 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.memorise.ui.Screens
+import com.example.memorise.feature_note.domain.model.NoteType
+import com.example.memorise.feature_note.presentation.ScreenNavigations.Screens
+import com.example.memorise.feature_note.presentation.add_edit_notes.AddEditNoteViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectionScreen(
-    navController: NavController
-) {
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    viewModel: AddEditNoteViewModel
+    ) {
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -43,7 +51,7 @@ fun SelectionScreen(
                     },
                     navigationIcon = {
                         IconButton(onClick = {
-                            navController.navigate(Screens.MainScreen.route)
+                            navController.navigateUp()
                         }) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
@@ -54,15 +62,21 @@ fun SelectionScreen(
                 )
             }
         ){
-            selectionScreen(navController = navController)
+            selectionScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
         }
     }
 }
 @Composable
 fun selectionScreen(
     modifier: Modifier = Modifier,
-    navController: NavController
-) {
+    navController: NavController,
+    viewModel: AddEditNoteViewModel
+    ) {
+    var selectedNoteType by remember { mutableStateOf<NoteType?>(null) }
+
     Column(
         modifier = Modifier
             .padding(
@@ -72,50 +86,60 @@ fun selectionScreen(
     ) {
         Button(
             modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.BasicNoteScreen.route)}) {
+            onClick = {
+                selectedNoteType = NoteType.BASIC
+                navController.navigate(Screens.BasicNoteScreen.route)
+            }) {
             Text(text = "Basic Note",
                 textAlign = TextAlign.Left)
         }
         Button(
             modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.CornellNoteScreen.route)}) {
+            onClick = {
+                selectedNoteType = NoteType.CORNELL
+                navController.navigate(Screens.CornellNoteScreen.route)
+            }) {
             Text(text = "Cornell Note Method",
                 textAlign = TextAlign.Left)
 
         }
         Button(
             modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.OutlineNoteScreen.route)}) {
+            onClick = {
+                selectedNoteType = NoteType.OUTLINE
+                navController.navigate(Screens.OutlineNoteScreen.route)
+            }) {
             Text(text = "Outline Note Method",
                 textAlign = TextAlign.Left)
         }
         Button(
             modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.ChartingNoteScreen.route)}) {
-            Text(
-                text = "Charting Note Method",
-                textAlign = TextAlign.Left,
-               )
-        }
-        Button(
-            modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.QuadrantNoteScreen.route)}) {
+            onClick = {
+                selectedNoteType = NoteType.QUADRANT
+                navController.navigate(Screens.QuadrantNoteScreen.route)
+            }) {
             Text(text = "Quadrant Note Method",
                 textAlign = TextAlign.Left)
         }
         Button(
             modifier = modifier.fillMaxWidth(),
-            onClick = {navController.navigate(Screens.LadderNoteScreen.route)}) {
+            onClick = {
+                selectedNoteType = NoteType.LADDER
+                navController.navigate(Screens.LadderNoteScreen.route)
+            }) {
             Text(text = "Ladder",
                 textAlign = TextAlign.Left)
         }
-        Button(
-            modifier = modifier.fillMaxWidth(),
-            onClick = { /*TODO*/ }) {
-            Text(text = "Graph",
-                textAlign = TextAlign.Left)
-        }
+//        Button(
+//            modifier = modifier.fillMaxWidth(),
+//            onClick = {
+//                selectedNoteType = NoteType.IMAGE
+//                navController.navigate(Screens.ImageNoteScreen.route)
+//            }) {
+//            Text(
+//                text = "",
+//                textAlign = TextAlign.Left,
+//            )
+//        }
     }
-
-
 }
